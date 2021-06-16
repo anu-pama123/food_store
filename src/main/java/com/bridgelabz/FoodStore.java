@@ -1,45 +1,55 @@
 package com.bridgelabz;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Scanner;
 
-public class FoodStore
-{
-    public ArrayList<FoodItems> foodStore = new ArrayList<>();
+public class FoodStore {
+    private static FoodStore instance;
+    public HashSet<FoodItems> foodItemsList = new HashSet<>();
 
-    public void prepare(FoodItems foodItems) {
-        foodStore.add(foodItems);
+    private static FoodStore instance() {
+        return instance;
     }
 
-    public void deliver(FoodItems foodItems) {
-        foodStore.remove(foodItems);
+    static synchronized FoodStore getInstance() {
+        if (instance() == null) {
+            instance = new FoodStore();
+        }
+        return instance;
     }
 
-    public void printFood() {
-        for(FoodItems foodItems : foodStore) {
-            System.out.println(foodItems);
+    public void printPrepareItem() {
+        for (FoodItems foodItem : foodItemsList) {
+            System.out.println("Prepared Item : " + foodItem);
         }
     }
-    public void printStarterItems() {
-        for (FoodItems foodItems : foodStore)  {
-            if((foodItems.getFoodCategories()) == (FoodCategories.STARTER)) {
-                System.out.println("Starter items : "  + foodItems);
+
+    public void printDeleteItem() {
+        System.out.println("Enter the item should be deleted");
+        Scanner sc = new Scanner(System.in);
+        String choice = sc.nextLine();
+        for (FoodItems foodItem : foodItemsList) {
+            System.out.println(foodItem.getFoodName());
+            if (choice.equals(foodItem.getFoodName())) {
+                foodItemsList.remove(foodItem);
             }
         }
+    }
+
+    public void printStarterItems() {
+        foodItemsList.stream().filter(s1 -> s1.getFoodCategories().equals(FoodCategories.STARTER)).forEach(System.out::println);
     }
 
     public void printMainCourseItems() {
-        for (FoodItems foodItems : foodStore) {
-            if ((foodItems.getFoodCategories()) == FoodCategories.MAIN_COURSE) {
-                System.out.println("Main course items : " + foodItems);
-            }
-        }
+        foodItemsList.stream().filter(s1 -> s1.getFoodCategories().equals(FoodCategories.MAIN_COURSE)).forEach(System.out::println);
     }
 
-    public void printPrepareFood() {
-        printMainCourseItems();
+    public void printJuiceItems() {
+        foodItemsList.stream().filter(s1 -> s1.getFoodCategories().equals(FoodCategories.JUICE)).forEach(System.out::println);
     }
 
-    public void printDeliverFood() {
-        printMainCourseItems();
+    public void printAllItems() {
+        foodItemsList.stream().forEach(System.out::println);
     }
 }

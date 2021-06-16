@@ -1,18 +1,23 @@
 package com.bridgelabz;
 
-enum Taste{
-    SWEET, SPICY, LITTLE_SPICY, SALTY;
+enum Taste {
+    SWEET, HIGH_SPICY, LESS_SPICY, SALTY;
 }
 
-enum FoodCategories{
-    STARTER, DRINK, MAIN_COURSE;
+enum FoodCategories {
+    STARTER, JUICE, MAIN_COURSE;
+}
+
+enum FoodType {
+    VEG, NONVEG;
 }
 
 public class FoodItems
 {
     private String foodName;
     private Integer price;
-    private  Taste taste;
+    private Taste taste;
+    private FoodType foodType;
     private FoodCategories foodCategories;
 
     public Taste getTaste() {
@@ -23,8 +28,17 @@ public class FoodItems
         this.taste = taste;
     }
 
-    public void setFoodName(String foodName){
+    public FoodType getFoodType() {
+        return foodType;
+    }
+
+    public void setFoodType(FoodType foodType) {
+        this.foodType = foodType;
+    }
+
+    public String setFoodName(String foodName){
         this.foodName = foodName;
+        return foodName;
     }
     public String getFoodName() {
         return foodName;
@@ -52,6 +66,7 @@ public class FoodItems
                 "foodName='" + foodName + '\'' +
                 ", price=" + price +
                 ", taste=" + taste +
+                ", foodType=" + foodType +
                 ", foodCategories=" + foodCategories +
                 '}';
     }
